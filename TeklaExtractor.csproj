@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TeklaBinPath>C:\Program Files\Tekla Structures\2026.0\bin</TeklaBinPath>
+    <TeklaNet48Path>$(TeklaBinPath)\Net48Runtime</TeklaNet48Path>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Tekla.Structures">
+      <HintPath>$(TeklaNet48Path)\Tekla.Structures.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="Tekla.Structures.Model">
+      <HintPath>$(TeklaBinPath)\Tekla.Structures.Model.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>$(TeklaBinPath)\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Memory">
+      <HintPath>$(TeklaBinPath)\System.Memory.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Buffers">
+      <HintPath>$(TeklaBinPath)\System.Buffers.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions">
+      <HintPath>$(TeklaBinPath)\System.Threading.Tasks.Extensions.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Numerics.Vectors">
+      <HintPath>$(TeklaBinPath)\System.Numerics.Vectors.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+  </ItemGroup>
+
+  <!-- Overwrite NuGet System.* copies with Tekla bin versions required at runtime. -->
+  <Target Name="CopyTeklaRuntimeAssemblies" AfterTargets="Build">
+    <Copy SourceFiles="$(TeklaBinPath)\System.Runtime.CompilerServices.Unsafe.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="false" />
+    <Copy SourceFiles="$(TeklaBinPath)\System.Memory.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="false" />
+    <Copy SourceFiles="$(TeklaBinPath)\System.Buffers.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="false" />
+    <Copy SourceFiles="$(TeklaBinPath)\System.Threading.Tasks.Extensions.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="false" />
+    <Copy SourceFiles="$(TeklaBinPath)\System.Numerics.Vectors.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="false" />
+  </Target>
+
+</Project>
